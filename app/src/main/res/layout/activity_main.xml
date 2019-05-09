@@ -7,7 +7,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".MainActivity">
-    <android.support.v7.widget.RecyclerView
+    <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" android:id="@+id/mainTopics"/>-->
+    <fragment
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:id="@+id/mainTopics"/>
+            android:layout_height="wrap_content"
+            android:name="edu.washington.geruh.quizdroid.TopicListFragment"
+            android:id="@+id/fragment2"/>
+
+    <!--android:layout_below="@id/mainTopics">-->
+        <!--<fragment-->
+        <!--android:id="@+id/fragment"-->
+        <!--android:name="edu.uw.geruh.quizdroid.MovieListFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
 </LinearLayout>
