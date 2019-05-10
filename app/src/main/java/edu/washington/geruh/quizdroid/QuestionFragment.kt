@@ -51,7 +51,7 @@ class QuestionFragment : Fragment() {
 
         title.setText(quizTopic.questions.get(questionIndex).question)
 
-        var possible: Array<String> = questions.get(questionIndex).options
+        var possible: ArrayList<String> = questions.get(questionIndex).options
 
         view.findViewById<RadioButton>(R.id.answer1).setText(possible.get(0))
         view.findViewById<RadioButton>(R.id.answer2).setText(possible.get(1))
@@ -89,11 +89,11 @@ class QuestionFragment : Fragment() {
         }
     }
 
-    fun submit(selected: String, quizTopic: Topic, index: Int, questions: Array<Quiz>) {
+    fun submit(selected: String, quizTopic: Topic, index: Int, questions: ArrayList<Quiz>) {
         if (selected != "") {
            val oneQuestion = questions.get(questionIndex)
             val answer = oneQuestion.correctIndex
-            val options = oneQuestion.options as Array<String>
+            val options = oneQuestion.options as ArrayList<String>
             var feedback = ""
             if (options.get(answer) == selected) {
                 feedback = "Correct :)"

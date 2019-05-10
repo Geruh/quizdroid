@@ -17,7 +17,7 @@ class QuizApp : Application() {
     override fun onCreate() {
         super.onCreate()
         sharedInstance = this
-        topicRepository = TopicRepository()
+        topicRepository = TopicRepository(applicationContext)
     }
 }
 
@@ -31,7 +31,7 @@ class Quiz(val question: String, val correctIndex: Int, val options: ArrayList<S
 
 class TopicRepository {
 
-    private val mapOfTopics: Map<String, Topic>
+    private val mapOfTopics: MutableMap<String, Topic>
 
     companion object {
         const val JSON_FILE_PATH = "data/questions.json"
@@ -45,11 +45,7 @@ class TopicRepository {
     }
 
     fun getTopics(): List<String> {
-        val topicNames = listOf<String>(
-            mapOfTopics.getValue("math")!!.title,
-            mapOfTopics.getValue("physics")!!.title,
-            mapOfTopics.getValue("marvel")!!.title
-        )
+        val topicNames = mapOfTopics.keys as List<String>
         return topicNames
     }
 
@@ -58,13 +54,12 @@ class TopicRepository {
     }
 
     private fun initializeData(jsonArray: JSONArray): MutableMap<String, Topic> {
-        val map: emptyMap<String, Topic>()
+        val map = mutableMapOf<String, Topic>()
         for (i in 0 until jsonArray.length()) {
             var topic = jsonArray.get(i) as JSONObject
             var topicName = topic.get("title") as String
             var topicDescription =  topic.get("desc") as String
             var questions = constructQuiz(topic.get("questions") as JSONArray)
-
             val topicObj = Topic(topicName, topicDescription, topicDescription, questions)
             map.put(topicName, topicObj)
         }
