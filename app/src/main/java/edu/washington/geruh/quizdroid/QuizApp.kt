@@ -64,8 +64,8 @@ class TopicRepository {
             var json: String? = null
             json = try {
                 val sharedPreferences = context.getSharedPreferences("USER_PREFERENCES_KEY", Context.MODE_PRIVATE)
-                val default = "questions.json"
-                val path = "data/".plus(sharedPreferences.getString("data_path", default))
+                val fileName = "questions.json"
+                val path = "data/".plus(sharedPreferences.getString("data_path", fileName))
                 val inputStream = context.assets.open(path)
                 val size = inputStream.available()
                 val buffer = ByteArray(size)
