@@ -105,12 +105,12 @@ class TopicRepository {
         )
 
         val mathTopic: Topic =
-            Topic("Math", "This will be a series of questions testing your skills in mathematics goodluck", "ok", math)
-        val physicsTopic: Topic = Topic("Physics", "Do you know your Physics? Let's find out!", "ok", physics)
+            Topic("Math", "This will be a series of questions testing your skills in mathematics goodluck", "Topics in mathematics that every educated person needs to know to process, evaluate, and understand the numerical information in our society.", math)
+        val physicsTopic: Topic = Topic("Physics", "Do you know your Physics? Let's find out!", "the branch of science concerned with the nature and properties of matter and energy. The subject matter of physics, distinguished from that of chemistry and biology, includes mechanics, heat, light and other radiation, sound, electricity, magnetism, and the structure of atoms.", physics)
         val marvelTopic: Topic = Topic(
             "Marvel",
             "Do you think you know your marvel superheroes well here is your chance to prove it",
-            "ok",
+            "Super-teams such as the Avengers, the X-Men, the Fantastic Four, the Guardians of the Galaxy, the Defenders, the Inhumans, the New Warriors, the Nova Corps and other Marvel superheroes live in this quiz",
             marvel
         )
 

@@ -29,9 +29,4 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" tools:layout_editor_absoluteY="302dp"
             tools:layout_editor_absoluteX="161dp" android:id="@+id/startQuiz"/>
-    <Button
-            android:text="Begin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" tools:layout_editor_absoluteY="302dp"
-            tools:layout_editor_absoluteX="161dp" android:id="@+id/startQuiz2"/>
 </LinearLayout>

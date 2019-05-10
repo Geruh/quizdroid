@@ -36,7 +36,7 @@ class TopicActivityFragment : Fragment() {
         val numberOfQuestions = view.findViewById<TextView>(R.id.questions)
         topicView.setText(quizTopic.title)
         topicDesc.setText(quizTopic.shortDescr)
-        view.findViewById<Button>(R.id.startQuiz2).setOnClickListener{ startQuiz(quizTopic) }
+        view.findViewById<Button>(R.id.startQuiz).setOnClickListener{ startQuiz(quizTopic) }
         numberOfQuestions.setText("5 questions")
         return view
     }
