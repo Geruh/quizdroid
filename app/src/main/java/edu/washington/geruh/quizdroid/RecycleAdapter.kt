@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_topic.view.*
 
 
 class RecycleAdapter: RecyclerView.Adapter<CustomViewHolder>() {
-    val quizTopics = listOf("Math", "Physics", "Marvel Super Heroes")
+    val quizTopics = QuizApp.sharedInstance.topicRepository.getTopics()
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.item_topic, p0, false)
@@ -30,8 +30,8 @@ class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view) {
     init {
         view.setOnClickListener {
             val intent = Intent(view.context, QuizActivity::class.java)
-            intent.putExtra("quizTopic", view.topicName.text)
-            intent.putExtra("quizDesc", view.topicName.text)
+            val string = view.topicName.text as String
+            intent.putExtra("quizTopic", string.toLowerCase())
             view.context.startActivity(intent)
         }
     }

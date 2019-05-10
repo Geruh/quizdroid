@@ -15,97 +15,49 @@ import java.lang.ClassCastException
 import java.lang.RuntimeException
 
 class QuestionFragment : Fragment() {
-    companion object {
-        fun newInstance(quizTopic: String, index: Int, correct: Int): QuestionFragment {
-            val fragment = QuestionFragment()
-            val args = Bundle().apply {
-                putString("TOPIC", quizTopic)
-                putInt("CORRECT", correct)
-                putInt("INDEX", index)
-            }
-
-            fragment.arguments = args
-            return fragment
-        }
-
-    }
-    val math = arrayOf(
-        arrayOf(
-            "What is 2 * 2?", "3", "13", "4", "0", "5"
-        ),
-        arrayOf(
-            "What is 8 / 4?", "2", "2", "12", "8", "33"
-        ),
-        arrayOf(
-            "What is 3 * 10?", "5", "2", "3", "8", "30"
-        ),
-        arrayOf(
-            "What is 5 * 4?", "4", "12", "34", "20", "456"
-        ),
-        arrayOf(
-            "What is 300 * 1?", "2", "300", "300.3", "30", "2"
-        )
-    )
-    val physics = arrayOf(
-        arrayOf(
-            "What is Force equal to", "3", "Mass", "Mass x Acceleration", "Pounds", "Pounds * Acceleration"
-        ),
-        arrayOf(
-            "What is the unit of mesurement of mass", "2", "kilos", "pounds", "newtons", "force"
-        ),
-        arrayOf(
-            "What is Newtons third law",
-            "5",
-            "Don't repeat yourself",
-            "I forgot",
-            "don't lie",
-            "For each action there is a equal and opposite reaction"
-        ),
-        arrayOf(
-            "objects in ___ stay in motion", "4", "laws", "life", "motion", "orbit"
-        ),
-        arrayOf(
-            "what type of force allows you to walk", "2", "friction", "air resistance", "drag", "springs"
-        )
-    )
-
-    val marvel = arrayOf(
-        arrayOf(
-            "what superhero has a hammer?", "3", "Iron Man", "Thor", "Spiderman", "Captain America"
-        ),
-        arrayOf(
-            "What color is the hulk?", "2", "green", "red", "purple", "blue"
-        ),
-        arrayOf(
-            "is thanos correct?", "5", "no", "no", "no", "yes"
-        ),
-        arrayOf(
-            "what does groot say", "4", "meow", "hey", "I am groot", "whats up"
-        ),
-        arrayOf(
-            "who can turn very small", "2", "ant-man", "spider man", "thanos", "you"
-        )
-    )
-
 
     var listener: QuestionFragmentListener? = null
-    var questions = marvel
+    companion object {
+        fun newInstance(topic: Topic, index: Int, correct: Int): QuestionFragment =
+            QuestionFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable("TOPIC", topic)
+                    putInt("CORRECT", correct)
+                    putInt("INDEX", index)
+                }
+            }
+
+    }
+
     var selected: String = ""
     var questionIndex = 0
     var scoreC = 0
     val questionAmount = 5
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val view = inflater.inflate(R.layout.fragment_question, container, false)
-        val quizTopic = arguments!!.getString("TOPIC") as String
+
+        val quizTopic = arguments!!.getSerializable("TOPIC") as Topic
+
+
+        var questions = quizTopic.questions
+
         questionIndex = arguments!!.getInt("INDEX", 0)
+
         scoreC = arguments!!.getInt("CORRECT", 0)
+
         val title = view.findViewById<TextView>(R.id.quizName)
-        title.setText(quizTopic)
-        addQuestion(quizTopic, view)
+
+        title.setText(quizTopic.questions.get(questionIndex).question)
+
+        var possible: Array<String> = questions.get(questionIndex).options
+
+        view.findViewById<RadioButton>(R.id.answer1).setText(possible.get(0))
+        view.findViewById<RadioButton>(R.id.answer2).setText(possible.get(1))
+        view.findViewById<RadioButton>(R.id.answer3).setText(possible.get(2))
+        view.findViewById<RadioButton>(R.id.answer4).setText(possible.get(3))
+
         val multipleC = view.findViewById<RadioGroup>(R.id.choices)
         multipleC.setOnCheckedChangeListener { _, checkedId ->
             val select = view.findViewById<RadioButton>(checkedId)
@@ -114,35 +66,16 @@ class QuestionFragment : Fragment() {
 
         val button = view.findViewById<Button>(R.id.submit)
         button.setOnClickListener {
-            submit(selected, quizTopic, questionIndex)
+            submit(selected, quizTopic, questionIndex, questions)
         }
         return view
-    }
-
-    fun addQuestion(topic: String, view: View) {
-        if (topic == "Math") {
-            questions = math
-        } else if (topic == "Physics") {
-            questions = physics
-        }
-        val question: Any = questions.get(questionIndex)
-        val questionText: TextView = view.findViewById(R.id.quizName)
-        questionText.setText(questions.get(questionIndex).get(0).toString())
-        createResponses(question as Array<String>, view)
-    }
-
-    fun createResponses(questions: Array<String>, view: View) {
-        view.findViewById<RadioButton>(R.id.answer1).setText(questions.get(2))
-        view.findViewById<RadioButton>(R.id.answer2).setText(questions.get(3))
-        view.findViewById<RadioButton>(R.id.answer3).setText(questions.get(4))
-        view.findViewById<RadioButton>(R.id.answer4).setText(questions.get(5))
     }
 
     interface QuestionFragmentListener {
         fun submit(
             selected: String, answer: String,
             questionIndex: Int, numCorrect: Int, totalQuestions: Int,
-            quizTopic: String, feedback: String
+            quizTopic: Topic, feedback: String
         )
     }
 
@@ -156,11 +89,13 @@ class QuestionFragment : Fragment() {
         }
     }
 
-    fun submit(selected: String, quizTopic: String, index: Int) {
+    fun submit(selected: String, quizTopic: Topic, index: Int, questions: Array<Quiz>) {
         if (selected != "") {
-            val answer = questions.get(questionIndex).get(1)
+           val oneQuestion = questions.get(questionIndex)
+            val answer = oneQuestion.correctIndex
+            val options = oneQuestion.options as Array<String>
             var feedback = ""
-            if (questions.get(index).get(answer.toInt()) == selected) {
+            if (options.get(answer) == selected) {
                 feedback = "Correct :)"
                 scoreC = scoreC + 1
             } else {
@@ -168,7 +103,7 @@ class QuestionFragment : Fragment() {
             }
             listener?.submit(
                 selected,
-                questions.get(index).get(answer.toInt()),
+                options.get(answer),
                 index,
                 scoreC,
                 questionAmount,

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        tools:context=".TopicActivity">
+        tools:context=".TopicActivityFragment">
 
     <TextView
             android:text="Topic"
@@ -29,4 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" tools:layout_editor_absoluteY="302dp"
             tools:layout_editor_absoluteX="161dp" android:id="@+id/startQuiz"/>
+    <Button
+            android:text="Begin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" tools:layout_editor_absoluteY="302dp"
+            tools:layout_editor_absoluteX="161dp" android:id="@+id/startQuiz2"/>
 </LinearLayout>

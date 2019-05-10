@@ -7,11 +7,13 @@ import android.support.v4.app.Fragment
 
 class QuizActivity : AppCompatActivity(), TopicActivityFragment.TopicactivityFragmentListener,
     QuestionFragment.QuestionFragmentListener, AnswerFragment.AnswerFragmentListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
         val topic = intent.getStringExtra("quizTopic")
-        val topicActivity = TopicActivityFragment.newInstance(topic)
+        val data = QuizApp.sharedInstance.topicRepository.getTopicInfo(topic)
+        val topicActivity = TopicActivityFragment.newInstance(data)
         replaceFragment(topicActivity)
     }
 
@@ -22,8 +24,8 @@ class QuizActivity : AppCompatActivity(), TopicActivityFragment.TopicactivityFra
     }
 
 
-    override fun startQuiz(quizTopic: String) {
-        val quiz = QuestionFragment.newInstance(quizTopic, 0, 0)
+    override fun startQuiz(topic: Topic) {
+        val quiz = QuestionFragment.newInstance(topic!!,0,0)
         replaceFragment(quiz)
     }
 
@@ -31,7 +33,7 @@ class QuizActivity : AppCompatActivity(), TopicActivityFragment.TopicactivityFra
     override fun submit(
         selected: String, solution: String,
         index: Int, correct: Int, questionCount: Int,
-        quizTopic: String, feedback: String
+        quizTopic: Topic, feedback: String
     ) {
         var answer = AnswerFragment.newInstance(
             selected,
@@ -40,7 +42,7 @@ class QuizActivity : AppCompatActivity(), TopicActivityFragment.TopicactivityFra
         replaceFragment(answer)
     }
 
-    override fun nextQuestion(quizTopic: String, quizScore: Int, questionIndex: Int, questionCount: Int) {
+    override fun nextQuestion(quizTopic: Topic, quizScore: Int, questionIndex: Int, questionCount: Int) {
         if (questionIndex < questionCount) {
             val questionFragment = QuestionFragment.newInstance(
                 quizTopic, questionIndex,

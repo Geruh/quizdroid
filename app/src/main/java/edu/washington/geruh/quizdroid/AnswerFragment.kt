@@ -9,38 +9,47 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+
 class AnswerFragment : Fragment() {
 
     companion object {
         fun newInstance(
             selected: String,
-            solution: String, index: Int, correct: Int, questionCount: Int, quizTopic: String, feedback: String
-        ): AnswerFragment {
-            val fragment = AnswerFragment()
-            val bundle = Bundle().apply {
-                putString("TOPIC", quizTopic)
-                putInt("CORRECT", correct)
-                putInt("QUESTIONS", questionCount)
-                putInt("INDEX", index)
-                putString("FEEDBACK", feedback)
-                putString("RESPONSE", selected)
-                putString("SOLUTION", solution)
+            solution: String, index: Int, correct: Int, questionCount: Int, quizTopic: Topic, feedback: String
+        ): AnswerFragment =
+            AnswerFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable("TOPIC", quizTopic)
+                    putInt("CORRECT", correct)
+                    putInt("QUESTIONS", questionCount)
+                    putInt("INDEX", index)
+                    putString("FEEDBACK", feedback)
+                    putString("RESPONSE", selected)
+                    putString("SOLUTION", solution)
+                }
             }
-            fragment.arguments = bundle
-            return fragment
+    }
+
+    private var topic: Topic? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            topic = it.getSerializable("TOPIC") as? Topic
         }
     }
 
     var listener: AnswerFragmentListener? = null
+
     interface AnswerFragmentListener {
-        fun nextQuestion(quizTopic: String, quizScore: Int, questionIndex: Int, questionCount: Int)
+        fun nextQuestion(quizTopic: Topic, quizScore: Int, questionIndex: Int, questionCount: Int)
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         try {
             listener = context as AnswerFragmentListener
-        } catch(e: ClassCastException) {
+        } catch (e: ClassCastException) {
             throw ClassCastException(context.toString())
         }
     }
@@ -51,7 +60,6 @@ class AnswerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_answer, container, false)
-        val quizTopic = arguments!!.getString("TOPIC")
         val quizScore = arguments!!.getInt("CORRECT", 0)
         val questionCount = arguments!!.getInt("QUESTIONS", 0)
         val index = arguments!!.getInt("INDEX", 0)
@@ -66,16 +74,16 @@ class AnswerFragment : Fragment() {
         val score = view.findViewById<TextView>(R.id.score)
         score.setText("You have answered ${quizScore} out of ${questionCount} corectly")
         val next = view.findViewById<Button>(R.id.next)
-        if (index == (questionCount-1)) {
+        if (index == (questionCount - 1)) {
             next.setText("Finish")
         }
         next.setOnClickListener {
-            next(quizTopic, quizScore, index + 1, questionCount)
+            next(topic!!, quizScore, index + 1, questionCount)
         }
         return view
     }
 
-    fun next(quizTopic: String, quizScore: Int, index: Int, questionCount: Int) {
+    fun next(quizTopic: Topic, quizScore: Int, index: Int, questionCount: Int) {
         listener?.nextQuestion(quizTopic, quizScore, index, questionCount)
     }
 
