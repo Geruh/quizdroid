@@ -22,14 +22,17 @@ class QuizApp : Application() {
 }
 
 // topic class
-class Topic(val title: String, val shortDescr: String, val longDescr: String, val questions: Array<Quiz>): Serializable {}
+class Topic(val title: String, val shortDescr: String, val longDescr: String, val questions: ArrayList<Quiz>) :
+    Serializable {}
 
 //quiz class
-class Quiz(val question: String, val correctIndex: Int, val options: Array<String>): Serializable{}
+class Quiz(val question: String, val correctIndex: Int, val options: ArrayList<String>) : Serializable {}
+
 
 class TopicRepository {
 
     private val mapOfTopics: Map<String, Topic>
+
     companion object {
         const val JSON_FILE_PATH = "data/questions.json"
 
@@ -54,30 +57,58 @@ class TopicRepository {
         return mapOfTopics.getValue(name)
     }
 
-    private fun initializeData(jsonArray: JSONArray): Map<String, Topic> {
+    private fun initializeData(jsonArray: JSONArray): MutableMap<String, Topic> {
+        val map: emptyMap<String, Topic>()
         for (i in 0 until jsonArray.length()) {
+            var topic = jsonArray.get(i) as JSONObject
+            var topicName = topic.get("title") as String
+            var topicDescription =  topic.get("desc") as String
+            var questions = constructQuiz(topic.get("questions") as JSONArray)
 
+            val topicObj = Topic(topicName, topicDescription, topicDescription, questions)
+            map.put(topicName, topicObj)
         }
+        return map
     }
 
-        private fun constructJSON(context: Context): JSONArray {
-            var json: String? = null
-            json = try {
-                val sharedPreferences = context.getSharedPreferences("USER_PREFERENCES_KEY", Context.MODE_PRIVATE)
-                val fileName = "questions.json"
-                val path = "data/".plus(sharedPreferences.getString("data_path", fileName))
-                val inputStream = context.assets.open(path)
-                val size = inputStream.available()
-                val buffer = ByteArray(size)
-                inputStream.read(buffer)
-                inputStream.close()
-                String(buffer, Charsets.UTF_8)
-            }
-            catch (e:Exception) {
-                null
-            }
-            return JSONArray(json)
+    private fun constructQuiz(jsonArray: JSONArray): ArrayList<Quiz> {
+        val data = arrayListOf<Quiz>()
+
+        for (i in 0 until jsonArray.length()) {
+            val question = jsonArray.get(i) as JSONObject
+            val prompt = question.get("text") as String
+            val solution = question.get("answer") as String
+            val answers = question.get("answers") as JSONArray
+            val options = constructOptions(answers)
+
+            data.add(Quiz(prompt, solution.toInt() - 1, options))
         }
+        return data
+    }
+
+    private fun constructOptions(jsonArray: JSONArray): ArrayList<String> {
+        var possibleAnswers = arrayListOf<String>()
+        for (i in 0 until jsonArray.length()) {
+            possibleAnswers.add(jsonArray.get(i) as String)
+        }
+        return possibleAnswers
+    }
+
+    //    https://www.youtube.com/watch?v=3LIXkNxUdhw
+    private fun constructJSON(context: Context): JSONArray {
+        var json: String? = null
+        try {
+            val sharedPreferences = context.getSharedPreferences("USER_PREFERENCES_KEY", Context.MODE_PRIVATE)
+//            val size = inputStream.available()
+//            val buffer = ByteArray(size)
+//            val path = "data/".plus(sharedPreferences.getString("data_path", fileName))
+            val inputStream = context.assets.open("questions.json")
+            json = inputStream.bufferedReader().use{it.readText()}
+        } catch (e: Exception) {
+            null
+        }
+        return JSONArray(json)
+    }
 
 }
 
