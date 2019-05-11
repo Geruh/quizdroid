@@ -33,20 +33,14 @@ class TopicRepository {
 
     private val mapOfTopics: MutableMap<String, Topic>
 
-    companion object {
-        const val JSON_FILE_PATH = "data/questions.json"
-
-    }
-
-
     constructor(context: Context) {
         val jsonArray = constructJSON(context)
         mapOfTopics = initializeData(jsonArray)
     }
 
     fun getTopics(): List<String> {
-        val topicNames = mapOfTopics.keys as List<String>
-        return topicNames
+        val topicNames = mapOfTopics.keys
+        return topicNames.toList()
     }
 
     fun getTopicInfo(name: String): Topic {
@@ -94,11 +88,11 @@ class TopicRepository {
         var json: String? = null
         try {
             val sharedPreferences = context.getSharedPreferences("USER_PREFERENCES_KEY", Context.MODE_PRIVATE)
-//            val size = inputStream.available()
 //            val buffer = ByteArray(size)
 //            val path = "data/".plus(sharedPreferences.getString("data_path", fileName))
             val inputStream = context.assets.open("questions.json")
             json = inputStream.bufferedReader().use{it.readText()}
+
         } catch (e: Exception) {
             null
         }

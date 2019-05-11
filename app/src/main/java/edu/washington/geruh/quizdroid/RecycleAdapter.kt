@@ -21,7 +21,7 @@ class RecycleAdapter: RecyclerView.Adapter<CustomViewHolder>() {
     }
 
     override fun onBindViewHolder(p0: CustomViewHolder, p1: Int) {
-        val topics = quizTopics.get(p1)
+        val topics = quizTopics[p1]
         p0.view.topicName.text = topics
     }
 }
@@ -31,7 +31,7 @@ class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view) {
         view.setOnClickListener {
             val intent = Intent(view.context, QuizActivity::class.java)
             val string = view.topicName.text as String
-            intent.putExtra("quizTopic", string.toLowerCase())
+            intent.putExtra("quizTopic", string)
             view.context.startActivity(intent)
         }
     }

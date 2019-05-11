@@ -32,8 +32,6 @@ class QuestionFragment : Fragment() {
     var selected: String = ""
     var questionIndex = 0
     var scoreC = 0
-    val questionAmount = 5
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_question, container, false)
@@ -42,6 +40,7 @@ class QuestionFragment : Fragment() {
 
 
         var questions = quizTopic.questions
+        var questionAmount = questions.size
 
         questionIndex = arguments!!.getInt("INDEX", 0)
 
@@ -91,9 +90,10 @@ class QuestionFragment : Fragment() {
 
     fun submit(selected: String, quizTopic: Topic, index: Int, questions: ArrayList<Quiz>) {
         if (selected != "") {
+            val questionAmount = questions.size
            val oneQuestion = questions.get(questionIndex)
             val answer = oneQuestion.correctIndex
-            val options = oneQuestion.options as ArrayList<String>
+            val options = oneQuestion.options
             var feedback = ""
             if (options.get(answer) == selected) {
                 feedback = "Correct :)"
