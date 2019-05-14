@@ -87,7 +87,9 @@ class TopicRepository {
     private fun constructJSON(context: Context): JSONArray {
         var json: String? = null
         try {
-            val inputStream = context.assets.open("questions.json")
+            val inputStream = context.assets.open("customQuestions.json")
+            // customQuestions.json
+            // questions.json
             json = inputStream.bufferedReader().use{it.readText()}
         } catch (e: Exception) {
             null

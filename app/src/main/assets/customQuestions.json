@@ -1,0 +1,178 @@
+[
+  { "title":"Balisong",
+    "desc":"Let's learn about Balisong flipping",
+    "questions":[
+      {
+        "text":"What balisong should you not get?",
+        "answer":"2",
+        "answers":[
+          "Alpha Beast",
+          "Kraken",
+          "CCC",
+          "BM 51"
+        ]
+      },
+      {
+        "text": "What is a trainer?",
+        "answer": "0",
+        "answers": [
+          "Fake bladed balisong",
+          "Add wheels to the balisong",
+          "Live blade",
+          "CCC"
+        ]
+      },
+      {
+        "text": "What paypal method should you use?",
+        "answer": "0",
+        "answers": [
+          "Goods and Services",
+          "Friends and Family",
+          "CashApp",
+          "Donation"
+        ]
+      },
+      {
+        "text": "Who are the worst people in the balisong community?",
+        "answer": "3",
+        "answers": [
+          "Scammers",
+          "Scalpers",
+          "Clones",
+          "All the above"
+        ]
+      }
+    ]
+  },
+  { "title":"Random", "desc": "Testing you in random stuff",
+    "questions":[
+      {
+        "text":"Who is Thanos?",
+        "answer":"1",
+        "answers":[
+          "Purple man",
+          "Giant Barney",
+          "Iron Man",
+          "No one cares"
+        ]
+      },
+      {
+        "text":"Fortnite or Apex?",
+        "answer":"2",
+        "answers":[
+          "Fortnite",
+          "Apex",
+          "Which ever",
+          "Minecraft"
+        ]
+      },
+      {
+        "text":"Who am I?",
+        "answer":"1",
+        "answers":[
+          "You",
+          "I",
+          "Me",
+          "Myself"
+        ]
+      },
+      {
+        "text":"This quiz fun?",
+        "answer":"3",
+        "answers":[
+          "Nope",
+          "Yes",
+          "uhhh",
+          "..."
+        ]
+      }
+    ]
+  },{ "title":"Animals", "desc":"How well do you know animals?",
+    "questions":[
+      {
+        "text":"What color is a Zebra?",
+        "answer":"3",
+        "answers":[
+          "White",
+          "White with black stripes",
+          "Black with white stripes",
+          "Both of the above"
+        ]
+      },
+      {
+        "text":"What is the fastest animal on the Earth?",
+        "answer":"2",
+        "answers":[
+          "Lion",
+          "Cheetah",
+          "Turtle",
+          "Hare"
+        ]
+      },
+      {
+        "text":"What is the biggest animal in the world?",
+        "answer":"1",
+        "answers":[
+          "Blue Whale",
+          "Giraffe",
+          "Gorilla",
+          "Elephant"
+        ]
+      },
+      {
+        "text":"Which animal can't jump",
+        "answer":"2",
+        "answers":[
+          "Giraffe",
+          "Elaphant",
+          "Turtle",
+          "Hippo"
+        ]
+      },
+      {
+        "text":"Which animal can sleep for up to 3 years",
+        "answer":"4",
+        "answers":[
+          "Snake",
+          "Koala",
+          "You",
+          "Snail"
+        ]
+      }
+    ]
+  },
+  { "title":"Naruto", "desc":"How well do you know Naruto?",
+    "questions":[
+      {
+        "text":"What village doews Naruto belong to?",
+        "answer":"3",
+        "answers":[
+          "The village hidden in the mist",
+          "The village hidden in the sand",
+          "The hidden leaf village",
+          "None of the above"
+        ]
+      },
+      {
+        "text":"How many tails does Kurama have",
+        "answer":"2",
+        "answers":[
+          "1",
+          "9",
+          "2",
+          "0"
+        ]
+      },{
+        "text":"Madara or Sasuke?",
+        "answer":"3",
+        "answers":[
+          "Madara",
+          "Sasuke",
+          "I don't care",
+          "Naruto"
+        ]
+      }
+    ]
+  }
+]
+
