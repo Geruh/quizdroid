@@ -51,7 +51,6 @@ class Notification: BroadcastReceiver() {
     }
     private fun saveJSON(json: String?) {
         try {
-            if (ContextCompat.checkSelfPermission(contextTest!!, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             val directory = Environment.getExternalStorageDirectory()
             if (!directory.exists()) {
                 directory.mkdirs()
@@ -63,7 +62,6 @@ class Notification: BroadcastReceiver() {
             result = "Succeed"
             Toast.makeText(contextTest, "${result}", Toast.LENGTH_LONG).show()
             Log.i("Debugging", "succeed")
-            } 
         } catch (ioe: IOException) {
             ioe.printStackTrace()
             Log.i("Debugging", ioe.toString())
